@@ -1,0 +1,49 @@
+<div class="modal-header">
+  <h4 class="modal-title">Create New Card</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="submitForm()">
+  <div class="modal-body">
+    <div class="container">
+      <div class="form-group">
+        <label for="titleInput">Card name</label>
+        <input class="form-control" id="nameInput" placeholder="Card Title" formControlName="name">
+      </div>
+      <div class="form-group mt-4">
+        <label for="description">Card description</label>
+        <textarea class="form-control" id="descriptionInput" placeholder="Card description" formControlName="description" rows="8"></textarea>
+      </div>
+
+      <div class="form-group mt-4">
+        <label class="form-label">Choose list</label>
+        <select class="form-control " formControlName="listName" (change)="onSelectListNameChange($event)">
+          @for(list of lists;track list)
+              {
+                <option [value]="list">{{list}}</option>
+              }
+          
+        </select>
+      </div>
+      
+      <div class="form-group mt-4">
+        <label for="dueDate" >Due to:</label> 
+         <input formControlName="dueDate"  type="datetime-local" (change)="onSelectDueDateChange($event)">
+     </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    @if (createSuccessful) {
+      <p class="text-success">Card created!</p>
+    }
+    @if (createFailed) {
+      <p class="text-danger">Failed to create the Card. Check the console for details.</p>
+    }
+  
+    @if (!createSuccessful) {
+      <button class="btn btn-lg btn-dark"  type="submit">Create</button>
+    }
+    <button type="button" class="btn btn-lg btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+  </div>
+</form>
